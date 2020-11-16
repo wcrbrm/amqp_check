@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: amqpcheck
+spec:
+  template:
+    spec:
+      containers:
+        - name: amqpcheck
+          image: wcrbrm/amqp-check:latest
+          env:
+            - name: APP_RABBITMQ_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secrets
+                  key: ampq_connection
+      restartPolicy: Never
+  backoffLimit: 1
